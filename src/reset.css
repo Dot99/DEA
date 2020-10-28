@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+html {
+  width: 100vw;
+}
+
+body {
+  width: 100%;
+}
+
+button {
+  outline: none;
+  background: none;
+}
+/*# sourceMappingURL=reset.css.map */
