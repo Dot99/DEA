@@ -1,13 +1,15 @@
+:root {
+  --transition-duration: 1000ms;
+  --page-transition-duration: 3000ms;
+}
+
 * {
   margin: 0;
   padding: 0;
   border: none;
 }
 
-html {
-  width: 100vw;
-}
-
+html,
 body {
   width: 100%;
 }
