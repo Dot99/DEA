@@ -1,42 +1,48 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CSSTransition } from "react-transition-group";
 import { Route } from "react-router-dom";
+
+import timingContext from "./Hooks/timingContext";
 
 import Encryption from "./Components/Encryption/encryption";
 import Decryption from "./Components/Decryption/decryption";
 import Landing from "./Components/Landing/landing";
 
+import "./reset.css";
+
 function App() {
+  const timings = useContext(timingContext);
+
   const PAGES = [
     {
       path: "/",
-      component: <Landing />,
+      Component: Landing,
       exact: true,
     },
     {
       path: "/encryption",
-      component: <Encryption />,
+      Component: Encryption,
       exact: false,
     },
     {
       path: "/decryption",
-      component: <Decryption />,
+      Component: Decryption,
       exact: false,
     },
   ];
 
   return (
     <React.Fragment>
-      {PAGES.map(({ path, component, exact }) => (
+      {PAGES.map(({ path, Component, exact }) => (
         <Route key={path} path={path} exact={exact}>
           {({ match }) => (
             <CSSTransition
               in={match != null}
-              timeout={3000}
+              timeout={timings.page_transition_duration}
               unmountOnExit
               appear
             >
-              {component}
+              <Component shouldRender={match != null} />
             </CSSTransition>
           )}
         </Route>
