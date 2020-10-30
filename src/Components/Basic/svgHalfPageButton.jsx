@@ -52,6 +52,25 @@ const Container = styled.button`
     }
   }
 
+  &.exit {
+    svg path {
+      stroke-dasharray: 800;
+      stroke-dashoffset: 0;
+      fill: transparent;
+      transition: all var(--transition-duration) ease-in-out
+          calc(var(--transition-duration) / 4),
+        fill calc(var(--transition-duration) / 4) ease-in-out;
+    }
+  }
+  &.exit-active,
+  &.exit-done {
+    svg path {
+      stroke-dasharray: 800;
+      stroke-dashoffset: -800;
+      fill: transparent;
+    }
+  }
+
   //HOVER EFFECTS
   &:hover {
     svg {
@@ -91,26 +110,49 @@ const Container = styled.button`
   }
 `;
 
-function SvgHalfPageButton({ shouldRender, children, click }) {
-  const ANIMATION_CLASS_STAGES = [
-    "hover--start",
-    "hover--forward",
-    "hover--start",
-    "hover--backward",
-  ];
+function SvgHalfPageButton({ shouldRender, handler, children }) {
+  const timings = useContext(timingContext);
 
   const containerRef = useRef(null);
   const animationCurrentIndex = useRef(null);
 
+  //SETUP THE HOVER EVENT LISTENERS
   useEffect(() => {
-    //setup mouseneter eventlistener to start a clock that changes the classes
-    containerRef.current.addEventListener("mouseenter", () => {
+    const ANIMATION_CLASS_STAGES = [
+      "hover--start",
+      "hover--forward",
+      "hover--start",
+      "hover--backward",
+    ];
+
+    const innerRef = containerRef.current;
+    let clock;
+
+    if (!shouldRender) {
+      handlemouseleave();
+      return;
+    }
+
+    function handlemouseleave() {
+      //clear timer
+      clearInterval(clock);
+
+      //remove this listener
+      innerRef.removeEventListener("mouseleave", handlemouseleave);
+
+      //remove previous class
+      innerRef.classList.remove(
+        ANIMATION_CLASS_STAGES[animationCurrentIndex.current]
+      );
+    }
+
+    function handlemousenter() {
       //reset the animation index
       animationCurrentIndex.current = 0;
 
-      let clock = setInterval(() => {
+      clock = setInterval(() => {
         //remove previous class
-        containerRef.current.classList.remove(
+        innerRef.classList.remove(
           ANIMATION_CLASS_STAGES[animationCurrentIndex.current]
         );
 
@@ -122,36 +164,48 @@ function SvgHalfPageButton({ shouldRender, children, click }) {
         }
 
         //add the new class to the component
-        containerRef.current.classList.add(
+        innerRef.classList.add(
           ANIMATION_CLASS_STAGES[animationCurrentIndex.current]
         );
       }, timings.transition_duration);
+    }
 
-      //set up eventlistener that ends the animation on mouse leave
-      containerRef.current.addEventListener("mouseleave", function mleave() {
-        //remove this listener
-        containerRef.current.removeEventListener("mouseleave", mleave);
+    //setup mouseneter eventlistener to start a clock that changes the classes
+    innerRef.addEventListener("mouseenter", handlemousenter);
 
-        //remove previous class
-        containerRef.current.classList.remove(
-          ANIMATION_CLASS_STAGES[animationCurrentIndex.current]
-        );
+    //setup mouseleave to end animations
+    innerRef.addEventListener("mouseleave", handlemouseleave);
 
-        //clear timer
-        clearInterval(clock);
-      });
-    });
-  });
+    //unMount functions
+    return () => {
+      clearInterval(clock);
+      innerRef.removeEventListener("mouseenter", handlemousenter);
+      innerRef.removeEventListener("mouseleave", handlemouseleave);
+    };
+  }, [timings.transition_duration, shouldRender]);
 
-  const timings = useContext(timingContext);
+  //SETUP THE CLICK HANDLER
+  useEffect(() => {
+    const innerRef = containerRef.current;
+
+    function handleclick() {
+      handler();
+    }
+
+    innerRef.addEventListener("click", handleclick);
+
+    return () => {
+      innerRef.removeEventListener("click", handleclick);
+    };
+  }, [handler]);
+
   return (
     <CSSTransition
       in={shouldRender}
       timeout={timings.transition_duration}
       appear
-      unmountOnExit
     >
-      <Container ref={containerRef} onclick={click}>
+      <Container ref={containerRef} onclick={handler}>
         {children}
       </Container>
     </CSSTransition>
