@@ -98,14 +98,14 @@ const Container = styled.button`
   &.hover--forward {
     svg {
       path {
-        stroke-dashoffset: ${getRandom(0, 600)};
+        stroke-dashoffset: ${getRandom(300, 600)};
       }
     }
   }
   &.hover--backward {
     svg {
       path {
-        stroke-dashoffset: ${getRandom(-400, 0)};
+        stroke-dashoffset: ${getRandom(-600, -300)};
       }
     }
   }
