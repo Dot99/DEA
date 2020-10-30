@@ -1,17 +1,19 @@
 import React, { useContext } from "react";
 import { CSSTransition } from "react-transition-group";
-import { Route } from "react-router-dom";
+import { Route, useLocation } from "react-router-dom";
 
 import timingContext from "./Hooks/timingContext";
 
 import Encryption from "./Components/Encryption/encryption";
 import Decryption from "./Components/Decryption/decryption";
 import Landing from "./Components/Landing/landing";
+import LandingLink from "./Components/LandingLink/landingLink";
 
 import "./reset.css";
 
 function App() {
   const timings = useContext(timingContext);
+  const location = useLocation();
 
   const PAGES = [
     {
@@ -47,6 +49,7 @@ function App() {
           )}
         </Route>
       ))}
+      <LandingLink shouldRender={location.pathname !== "/"} />
     </React.Fragment>
   );
 }
