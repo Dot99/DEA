@@ -1,27 +1,8 @@
 import React, { useContext, useEffect, useRef } from "react";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { CSSTransition } from "react-transition-group";
 
 import timingContext from "../../Hooks/timingContext";
-import userEvent from "@testing-library/user-event";
-
-const shake = keyframes`
-  0% {
-    transform: translate(0,0);
-  }
-  25% {
-    transform: translate(1%, 0);
-  }
-  50% {
-    transform: translate(0, 0);
-  }
-  75% {
-    transform: translate(-1%, 0);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
-`;
 
 const Container = styled.button`
   width: 100%;
@@ -29,10 +10,6 @@ const Container = styled.button`
   cursor: pointer;
 
   transition: transform calc(var(--transition-duration) / 2) ease-in-out;
-
-  &:active {
-    animation: ${shake} 400ms ease infinite;
-  }
 
   svg,
   svg path {
@@ -103,6 +80,13 @@ const Container = styled.button`
       path {
         stroke-dashoffset: -400;
       }
+    }
+  }
+
+  //ACTIVE EFFECTS
+  &:active {
+    svg {
+      transform: scale(0.9);
     }
   }
 `;
