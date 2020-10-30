@@ -80,7 +80,9 @@ const Container = styled.button`
   }
 
   //HOVER EFFECTS
-  &:hover {
+  &.hover--start,
+  &.hover--forward,
+  &.hover--backward {
     svg {
       transform: scale(0.8);
     }
