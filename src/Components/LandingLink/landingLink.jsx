@@ -14,8 +14,7 @@ const Container = styled.div`
 
   z-index: 100;
 
-  transition: transform var(--transition-duration) ease-in-out
-    var(--page-transition-duration);
+  transition: transform var(--page-transition-duration) ease-in-out;
 
   padding: 20px 20px;
 
@@ -36,17 +35,16 @@ const Container = styled.div`
   }
 
   &.enter {
-    transform: translate(-50%, 100%);
+    transform: translate(-50%, -100vh);
   }
   &.enter-active {
     transform: translate(-50%, 25%);
   }
   &.exit {
     transform: translate(-50%, 25%);
-    transition: transform var(--transition-duration) ease-in-out;
   }
   &.exit-active {
-    transform: translate(-50%, 100%);
+    transform: translate(-50%, -100vh);
   }
 `;
 
