@@ -202,9 +202,7 @@ function SvgHalfPageButton({ shouldRender, handler, children }) {
       timeout={timings.transition_duration}
       appear
     >
-      <Container ref={containerRef} onclick={handler}>
-        {children}
-      </Container>
+      <Container ref={containerRef}>{children}</Container>
     </CSSTransition>
   );
 }
