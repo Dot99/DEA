@@ -1,8 +1,8 @@
 import { createContext } from "react";
 
 const obj = {
-  page_transition_duration: 3000,
-  transition_duration: 1000,
+  page_transition_duration: 1250,
+  transition_duration: 800,
 };
 
 const timingContext = createContext(obj);

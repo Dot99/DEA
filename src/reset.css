@@ -1,6 +1,6 @@
 :root {
-  --transition-duration: 1000ms;
-  --page-transition-duration: 3000ms;
+  --transition-duration: 800ms;
+  --page-transition-duration: 1250ms;
 }
 
 * {
