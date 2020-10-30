@@ -4,6 +4,14 @@ import { CSSTransition } from "react-transition-group";
 
 import timingContext from "../../Hooks/timingContext";
 
+function getRandom(min, max) {
+  const RANGE = max - min;
+  const RANDOM = Math.random();
+  const RANGED_RANDOM = RANDOM * RANGE;
+
+  return RANGED_RANDOM + min;
+}
+
 const Container = styled.button`
   width: 100%;
   height: 50vh;
@@ -90,14 +98,14 @@ const Container = styled.button`
   &.hover--forward {
     svg {
       path {
-        stroke-dashoffset: 600;
+        stroke-dashoffset: ${getRandom(0, 600)};
       }
     }
   }
   &.hover--backward {
     svg {
       path {
-        stroke-dashoffset: -400;
+        stroke-dashoffset: ${getRandom(-400, 0)};
       }
     }
   }
