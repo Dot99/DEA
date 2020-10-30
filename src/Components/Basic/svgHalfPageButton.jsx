@@ -137,9 +137,6 @@ function SvgHalfPageButton({ shouldRender, handler, children }) {
       //clear timer
       clearInterval(clock);
 
-      //remove this listener
-      innerRef.removeEventListener("mouseleave", handlemouseleave);
-
       //remove previous class
       innerRef.classList.remove(
         ANIMATION_CLASS_STAGES[animationCurrentIndex.current]
