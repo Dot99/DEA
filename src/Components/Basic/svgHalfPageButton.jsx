@@ -91,7 +91,7 @@ const Container = styled.button`
   }
 `;
 
-function SvgHalfPageButton({ shouldRender, children }) {
+function SvgHalfPageButton({ shouldRender, children, click }) {
   const ANIMATION_CLASS_STAGES = [
     "hover--start",
     "hover--forward",
@@ -151,7 +151,9 @@ function SvgHalfPageButton({ shouldRender, children }) {
       appear
       unmountOnExit
     >
-      <Container ref={containerRef}>{children}</Container>
+      <Container ref={containerRef} onclick={click}>
+        {children}
+      </Container>
     </CSSTransition>
   );
 }
