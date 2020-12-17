@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import crypto from "crypto-js";
 
 import { ViewportContainer } from "../../Styled/Containers";
 import InputModal from "../InputModal/inputmodal";
@@ -20,15 +21,18 @@ function Decryption({ shouldRender }) {
       console.log("Either blank or invalid type");
     }
 
+    let key = e.key;
+
     switch (e.content.type) {
       case String:
         if (e.content.content !== "") {
-          //TODO: ENCRYPT STRING
-          console.log("string"); //DELETABLE
+          let text = e.content.content;
+
+          let encr = crypto.AES.encrypt(text, key).toString();
 
           setResult(
             //Result goes here
-            createResult(String, e.content.content)
+            createResult(String, encr, e.key)
           );
         } else {
           handleEmpty();
@@ -41,7 +45,7 @@ function Decryption({ shouldRender }) {
 
         setResult(
           //Result goes here
-          createResult(File, e.content.content)
+          createResult(File, e.content.content, e.key)
         );
         break;
 

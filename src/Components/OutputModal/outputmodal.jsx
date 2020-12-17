@@ -61,6 +61,30 @@ const Container = styled.div`
   padding: 10px;
 `;
 
+const StringContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Field = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin: 10px 0;
+
+  div {
+    background-color: var(--dark-color);
+    padding: 10px 20px;
+    border-radius: 50px;
+  }
+`;
+
 const CloseButton = styled.button`
   position: absolute;
   top: 10px;
@@ -98,10 +122,11 @@ const CloseButton = styled.button`
   }
 `;
 
-export const createResult = (type, result) => {
+export const createResult = (type, result, key) => {
   return {
     type: type,
     result: result,
+    key: key,
   };
 };
 
@@ -111,6 +136,7 @@ function OutputModal({
     console.trace("No modal closing callback provided!");
   },
 }) {
+  console.log(result);
   return (
     <CSSTransition in={result !== null} timeout={800} unmountOnExit>
       <Wrapper onClick={close}>
@@ -127,7 +153,9 @@ function OutputModal({
           ) : null}
           {result !== null ? (
             result.type === String ? (
-              <StringOutput />
+              <StringOutput cipherkey={result.key}>
+                {result.result}
+              </StringOutput>
             ) : null
           ) : null}
 
@@ -145,8 +173,19 @@ function FileOutput() {
   return <div>file</div>;
 }
 
-function StringOutput() {
-  return <div>string</div>;
+function StringOutput({ children, cipherkey }) {
+  return (
+    <StringContainer>
+      <Field>
+        <label>Key</label>
+        <div>{cipherkey}</div>
+      </Field>
+      <Field>
+        <label>String</label>
+        <div>{children}</div>
+      </Field>
+    </StringContainer>
+  );
 }
 
 export default OutputModal;
