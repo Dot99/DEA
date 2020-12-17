@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { CSSTransition } from "react-transition-group";
 import { Route, useLocation } from "react-router-dom";
+import crypto from "crypto-js";
 
 import timingContext from "./Hooks/timingContext";
 
@@ -14,6 +15,25 @@ import "./reset.css";
 function App() {
   const timings = useContext(timingContext);
   const location = useLocation();
+
+  /**
+   * Encrypt example using cryptojs
+   */
+  (function name(params) {
+    let key = "chave especial";
+    let message = "hello world";
+
+    let encr = crypto.AES.encrypt(message, key);
+
+    console.log({
+      key: key,
+      message: encr.toString(),
+    });
+
+    let decr = crypto.AES.decrypt(encr, key).toString(crypto.enc.Utf8);
+
+    console.log({ decr });
+  })();
 
   const PAGES = [
     {
